@@ -1,4 +1,3 @@
-//get post and put request using express
 const { log } = require('console');
 const express = require('express');
 const app = express();
@@ -9,9 +8,10 @@ app.post('/post', (req, res) => {
     console.log("This is a Post Req");
     res.send('Post request');
 }
-
 );
+
 app.put('/put', (req, res) => {
+    console.log("This is a Put Req");
     res.send('Put request');
 }
 );
