@@ -17,7 +17,26 @@ app.put('/put', (req, res) => {
 );
 
 app.get('/index', (req, res) => {
-    res.sendFile('/templates/about.html',{root:__dirname});
+    console.log("This is a Get Req");
+    res.send('Get Request');
+}
+);
+
+app.get('/api', (req, res) => {
+    console.log("This is a Get Req");
+    res.json({
+        message: 'Get Request',
+        status: 200,
+        data: {
+            name: 'Rahul',
+            age: 22
+        }
+    });
+}
+);
+
+app.get('/google', (req, res) => {
+    res.redirect('https://www.google.com');
 }
 );
 
