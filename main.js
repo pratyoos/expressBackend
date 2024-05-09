@@ -2,7 +2,6 @@ const { log } = require('console');
 const express = require('express');
 const app = express();
 const port = 3000;
-app.use(express.static("public"));
 
 app.post('/post', (req, res) => {
     console.log("This is a Post Req");
@@ -28,7 +27,7 @@ app.get('/api', (req, res) => {
         message: 'Get Request',
         status: 200,
         data: {
-            name: 'Rahul',
+            name: 'John',
             age: 22
         }
     });
