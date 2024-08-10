@@ -1,49 +1,54 @@
 import express from 'express';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import data from './data.json' assert { type: 'json' };
+
 const app = express();
-const port = 3000;
+dotenv.config();
 
-app.post('/post', (req, res) => {
-    console.log("This is a Post Req");
-    res.send('Post request');
-}
-);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-app.put('/put', (req, res) => {
-    console.log("This is a Put Req");
-    res.send('Put request');
-}
-);
-
-app.get('/index', (req, res) => {
-    console.log("This is a Get Req");
-    res.send('Get Request');
-}
-);
-
-app.get('/api', (req, res) => {
-    console.log("This is a Get Req");
-    res.json({
-        message: 'Get Request',
-        status: 200,
-        data: {
-            name: 'John',
-            age: 22
+app.get('/download', (req, res) => {
+    const file = path.join(__dirname, 'templates', 'main.jpg');
+    res.download(file, (err) => {
+        if (err) {
+            console.error("File download error:", err);
+            res.status(500).send("Error downloading file");
         }
     });
-}
-);
+});
+
+app.post('/post', (req, res) => {
+    console.log("This is a Post Request");
+    res.send('Post request received');
+});
+
+app.put('/put', (req, res) => {
+    console.log("This is a Put Request");
+    res.send('Put request received');
+});
+
+app.get('/', (req, res) => {
+    console.log("This is a Get Request");
+    res.send('Get request received');
+});
+
+app.get('/api', async (req, res) => {
+    console.log("This is a Get Request for API");
+    try {
+        res.json(data);
+    } catch (err) {
+        console.error("Error loading data:", err);
+        res.status(500).send("Error retrieving data");
+    }
+});
 
 app.get('/google', (req, res) => {
     res.redirect('https://www.google.com');
-}
-);
+});
 
-app.get('/download', (req, res) => {
-    res.download('/templates/main.jpg',{root:__dirname});
-}
-);
-
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
-}
-);
+});
